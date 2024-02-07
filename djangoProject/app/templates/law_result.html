@@ -1,0 +1,21 @@
+<!-- law_query/templates/law_query/result.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>法条查询结果</title>
+</head>
+<body>
+    <h2>法条查询结果</h2>
+    {% if laws %}
+        {%  for law in laws %}
+         <p>{{ law.num }}</p>
+         <p>{{ law.content }}</p>
+        {% endfor %}
+    {% else %}
+        <p>未找到相关法条。</p>
+    {% endif %}
+    <a href="{% url 'law_query' %}">返回查询</a>
+</body>
+</html>
