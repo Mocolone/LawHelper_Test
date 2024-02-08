@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render
 from django.http import JsonResponse
 from elasticsearch_dsl import *
@@ -29,6 +31,29 @@ def law_query(request):
         print(results)
         return render(request, 'law_result.html',{'laws':results})
     return render(request, 'law_query.html')
+
+def getLawByNum(request):
+    if request.method=="POST":
+        request_data = json.loads(request.body)
+        lawNum = request_data.get("lawNum")
+        search = Search(index='law')
+        lawList=[]
+        if lawNum:
+            for i in range(int(lawNum), int(lawNum) + 10):
+                query = Match(num=i)
+                response = search.query(query).execute()
+                results = response.hits
+                print(results)
+                tmp={'num':results[0].num,'content':results[0].content}
+                lawList.append(tmp)
+            response = JsonResponse({'law':json.dumps(lawList)})
+            response['Access-Control-Allow-Origin'] = '*'
+            return response
+        else:
+            response = JsonResponse({'error':'错误'})
+            response['Access-Control-Allow-Origin'] = '*'
+            return response
+
 
 
 
