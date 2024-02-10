@@ -54,6 +54,31 @@ def getLawByNum(request):
             response['Access-Control-Allow-Origin'] = '*'
             return response
 
+def getLawByContent(request):
+    if request.method=="POST":
+        request_data = json.loads(request.body)
+        lawContent = request_data.get("lawContent")
+        search = Search(index='law')
+        lawList=[]
+        if lawContent:
+            query = Match(content=lawContent)
+            response = search.query(query).execute()
+            results = response.hits
+            if results:
+                for result in results:
+                    tmp = {'num': result.num, 'content': result.content}
+                    lawList.append(tmp)
+                response = JsonResponse({'law': json.dumps(lawList)})
+                response['Access-Control-Allow-Origin'] = '*'
+                return response
+            else:
+                response = JsonResponse({'error': "未找到相关法条"})
+                response['Access-Control-Allow-Origin'] = '*'
+                return response
+        else:
+            response = JsonResponse({'error':'错误'})
+            response['Access-Control-Allow-Origin'] = '*'
+            return response
 
 
 
