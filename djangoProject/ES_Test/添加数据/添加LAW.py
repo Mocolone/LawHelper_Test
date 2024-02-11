@@ -34,7 +34,7 @@ class Laws(Document):
 Laws.init()
 
 import pandas as pd
-df_movies=pd.read_csv("../data/CriminalLaw.csv")
+df_movies=pd.read_csv("../../data/CriminalLaw.csv")
 for row_no,row in df_movies.iterrows():
     law=Laws(
         num=row.num,

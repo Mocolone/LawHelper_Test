@@ -38,7 +38,7 @@ class Facts(Document):
         }
 Facts.init()
 
-with open('../data/data_test.json', 'r', encoding='utf-8') as file:
+with open('../data/fact_test.json', 'r', encoding='utf-8') as file:
     for line in file:
         data = json.loads(line.strip())
         es.index(index='fact', body=data)
