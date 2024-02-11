@@ -21,15 +21,22 @@ def law_query(request):
     if request.method == 'POST':
         law_number = request.POST.get('law_number', '')
         law_content = request.POST.get('law_content','')
+        fact_content = request.POST.get('fact_content','')
         search = Search(index='law')
+        query = Match(num=law_number)
         if law_content:
+            search = Search(index='law')
             query= Match(content=law_content)
-        else:
+        if law_number:
+            search = Search(index='law')
             query = Match(num=law_number)
+        if fact_content:
+            search = Search(index='fact')
+            query=Match(fact=fact_content)
         response = search.query(query).execute()
         results=response.hits
         print(results)
-        return render(request, 'law_result.html',{'laws':results})
+        return render(request, 'law_result.html',{'results':results})
     return render(request, 'law_query.html')
 
 def getLawByNum(request):

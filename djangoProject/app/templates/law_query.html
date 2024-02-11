@@ -20,5 +20,11 @@
         <input type="text" name="law_number" required>
         <button type="submit">查询</button>
     </form>
+    <form method="post" action="{% url 'law_query' %}">
+        {% csrf_token %}
+        <label for="fact_content">案件检索:</label>
+        <input type="text" name="fact_content" required>
+        <button type="submit">查询</button>
+    </form>
 </body>
 </html>
